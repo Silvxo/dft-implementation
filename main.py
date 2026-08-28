@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 def dft(nums):
     resulting_array = []
@@ -8,7 +9,8 @@ def dft(nums):
         sum = 0.0
         for n in nums:
             sum += n * np.power(np.e, (2j * np.pi * k)/N)
-        resulting_array.append(sum)
+        magnitude = math.hypot(sum.real, sum.imag)
+        resulting_array.append(magnitude)
     return resulting_array
 
 
@@ -30,6 +32,8 @@ frq = k/T # os dois lados do vetor de frequencia
 frq = frq[range(int(n/2))] # apenas um lado
 
 X = dft(x_n)
+X = X[:int(n/2)] # apenas um lado
+
 
 print(X)
 
@@ -37,6 +41,6 @@ fig, ax = plt.subplots(2, 1)
 ax[0].plot(t,x_n)
 ax[0].set_xlabel('Tempo')
 ax[0].set_ylabel('Amplitude')
-ax[1].plot(frq,abs(X),'r')
+ax[1].plot(frq,X,'r')
 ax[1].set_xlabel('Freq (Hz)')
 ax[1].set_ylabel('|X(freq)|')
